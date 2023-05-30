@@ -1,6 +1,6 @@
 import {ClientLayout} from "../layouts"
 import {home} from "../pages/client"
-import {Error404} from "../pages"
+
 
 
 const routesClient= [
@@ -9,7 +9,7 @@ const routesClient= [
         layout: ClientLayout,
         component: home,
         exact: true,
-    }
+    },
 
 ];
 
