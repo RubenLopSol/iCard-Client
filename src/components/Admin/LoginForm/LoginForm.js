@@ -4,11 +4,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify"
 import {loginApi} from "../../../api/user"
+import {useAuth} from "../../../hooks"
 import './LoginForm.scss';
 
 
 
 export function LoginForm() {
+
+  const {login} = useAuth();
 
   const formik = useFormik({
 
@@ -22,6 +25,7 @@ export function LoginForm() {
 
         const response = await loginApi(formValue);
         const {access} = response;
+        login(access)
         console.log(access);
 
       } catch (error) {
