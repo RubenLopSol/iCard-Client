@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Loader } from "semantic-ui-react";
-import { HeaderPage, TableCategoryAdmin } from '../../components/Admin';
+import { HeaderPage, TableCategoryAdmin, AddEditCategoryForm } from '../../components/Admin';
 import { useCategory } from "../../hooks"
+import { ModalBasic } from "../../components/Common"
 
 export function CategoriesAdmin() {
+
+  const [showModal, setShowModal] = useState(false);
+  const [titleModal, setTitleModal] = useState(null);
+  const [contentModal, setContentModal] = useState(null);
 
     const { loading, categories, getCategories } = useCategory();
     console.log(categories);
@@ -20,12 +25,20 @@ export function CategoriesAdmin() {
         fetchData();
     }, []); 
 
+  const openCloseModal = () => setShowModal(prev => !prev);
+  const addCategory = () => {
+    setTitleModal("Nueva categoria");
+    setContentModal( <AddEditCategoryForm /> );
+    openCloseModal()
+  }
+
   return (
     <>
 
         <HeaderPage 
             title="Categorias" 
             btnTitle="Nueva categoria"
+            btnClick={ addCategory }
 
         />
         {loading ? (
@@ -34,9 +47,16 @@ export function CategoriesAdmin() {
             </Loader>
         ) : (
             <TableCategoryAdmin 
-                categories={categories}
+                categories={ categories }
             />
         )}
+
+        <ModalBasic 
+          show={ showModal }
+          onClose={ openCloseModal }
+          title={ titleModal }
+          children={ contentModal }
+        />
 
 
 
