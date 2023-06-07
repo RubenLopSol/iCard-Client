@@ -93,3 +93,27 @@ export async function addUserApi(data, token) {
         throw error;
     }
 }
+
+export async function updateUserApi( id, data, token ){
+
+    try {
+
+        const url = `${BASE_API}/api/users/${id}/`;
+
+        const params = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        const response = await fetch( url, params );
+        const result = await response.json();
+        return result;
+        
+    } catch (error) {
+        throw error;
+    }
+}

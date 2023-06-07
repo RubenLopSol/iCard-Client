@@ -31,15 +31,28 @@ export function UsersAdmin() {
 
   // Abrir el modal
   const addUser = () => {
+
     setTitleModal("Nuevo usuario");
     setContentModal( <AddEditUserForm onClose={openCloseModal} onRefetch={onRefetch} /> );
     openCloseModal();
-  }
+  };
   
   const updateUser= (data) => {
-    console.log("Editar usuario:");
-    console.log(data);
-  }
+
+    setTitleModal("Actualizar usuario");
+
+    setContentModal(
+      <AddEditUserForm 
+      onClose={openCloseModal} 
+      onRefetch={onRefetch} 
+      user={data} 
+        
+      />
+    );
+
+    openCloseModal();
+
+  };
 
   return (
     <>
