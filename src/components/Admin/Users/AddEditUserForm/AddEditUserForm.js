@@ -21,7 +21,7 @@ export function AddEditUserForm(props) {
         onSubmit: async(formValue) =>{
 
            try {
-            if (user) updateUser( user.id, formValue);
+            if (user) await updateUser( user.id, formValue);
 
             else await addUser(formValue);
             
