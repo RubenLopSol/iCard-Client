@@ -11,7 +11,7 @@ export function AddEditCategoryForm( props ) {
     const { onClose , onRefetch, category } = props;
 
     const [previewImage, setPreviewImage] = useState(category?.image || null);
-    const { addCategory } = useCategory()
+    const { addCategory, updateCategory, deleteCategory } = useCategory()
 
 
     const formik = useFormik({
@@ -21,7 +21,7 @@ export function AddEditCategoryForm( props ) {
         onSubmit: async (formValue) => {
 
             try {
-                if(category) console.log('Actualizar categoría')
+                if(category) await updateCategory( category.id, formValue );
                 else await addCategory(formValue);
 
                 onRefetch();
