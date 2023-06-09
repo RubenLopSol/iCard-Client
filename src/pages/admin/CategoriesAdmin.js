@@ -9,9 +9,10 @@ export function CategoriesAdmin() {
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
+  const [refetch, setRefetch] = useState(false)
 
-    const { loading, categories, getCategories } = useCategory();
-    console.log(categories);
+  const { loading, categories, getCategories } = useCategory();
+    
     useEffect(() => {
         async function fetchData() {
           try {
@@ -23,13 +24,26 @@ export function CategoriesAdmin() {
           }
         }
         fetchData();
-    }, []); 
+  
+    }, [ refetch ]); 
 
   const openCloseModal = () => setShowModal(prev => !prev);
+  const onRefetch = () => setRefetch((prev) => !prev);
+
   const addCategory = () => {
     setTitleModal("Nueva categoria");
-    setContentModal( <AddEditCategoryForm /> );
+    setContentModal( <AddEditCategoryForm onClose={openCloseModal} onRefetch={onRefetch} /> );
     openCloseModal()
+  }
+
+  const updateCategory = (data) => {
+
+    setTitleModal("Actualizar categoria");
+    setContentModal(
+      <AddEditCategoryForm onClose={openCloseModal} onRefetch={onRefetch} category={data} />
+    )
+    openCloseModal();
+
   }
 
   return (
@@ -48,6 +62,7 @@ export function CategoriesAdmin() {
         ) : (
             <TableCategoryAdmin 
                 categories={ categories }
+                updateCategory={updateCategory}
             />
         )}
 

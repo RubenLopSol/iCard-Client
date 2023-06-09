@@ -7,7 +7,7 @@ import "./TableCategoryAdmin.scss";
 
 export function TableCategoryAdmin(props) {
 
-    const { categories } = props
+    const { categories, updateCategory } = props
 
   return (
 
@@ -32,7 +32,7 @@ export function TableCategoryAdmin(props) {
                         {category.title}
                     </Table.Cell>
 
-                    <Action category={category} />
+                    <Action category={category} updateCategory={updateCategory} />
 
                 </Table.Row>
             ))}
@@ -44,12 +44,12 @@ export function TableCategoryAdmin(props) {
 
 function Action(props) {
 
-    const { category } = props;
+    const { category, updateCategory } = props;
 
     return (
         <Table.Cell textAlign='right'>
 
-            <Button icon onClick={ () => console.log("Actualizar categoria") }>
+            <Button icon onClick={ () => updateCategory( category ) }>
                 <Icon name='pencil' />
             </Button>
 

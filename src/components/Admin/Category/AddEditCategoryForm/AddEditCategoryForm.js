@@ -3,29 +3,46 @@ import { Form, Image, Button } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
 import { useFormik } from "formik" ;
 import * as Yup from "yup";
+import { useCategory } from "../../../../hooks/"
 import "./AddEditCategoryForm.scss";
 
-export function AddEditCategoryForm() {
+export function AddEditCategoryForm( props ) {
 
-    const [previewImg, setPreviewImg] = useState(null);
+    const { onClose , onRefetch, category } = props;
+
+    const [previewImage, setPreviewImage] = useState(category?.image || null);
+    const { addCategory } = useCategory()
+
 
     const formik = useFormik({
-        initialValues: initialValues(),
-        validationSchema: Yup.object(newSchema()),
+        initialValues: initialValues(category),
+        validationSchema: Yup.object(category ? updateSchema() : newSchema()),
         validationOnChange: false,
-        onSubmit: (formValue) => {
-            console.log("Formulario enviado");
-            console.log(formValue);
+        onSubmit: async (formValue) => {
+
+            try {
+                if(category) console.log('Actualizar categoría')
+                else await addCategory(formValue);
+
+                onRefetch();
+                onClose();
+
+
+            } catch (error) {
+                
+                console.error(error);
+            }
+
         },
     });
 
     const onDrop = useCallback( async (acceptedFile)=>{
         const file = acceptedFile[0];
         await formik.setFieldValue('image', file );
-        setPreviewImg(URL.createObjectURL(file));
+        setPreviewImage(URL.createObjectURL(file));
         console.log(file)
         
-    },[]);
+    }, []);
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/jpeg, image/png', 
@@ -52,24 +69,24 @@ export function AddEditCategoryForm() {
         color={formik.errors.image && "red"}
         >
 
-            Subir imagen
+            {previewImage ? "Actualizar imagen" : "Subir imagen"}
 
         </Button>
 
         <input { ...getInputProps() } />
-        <Image src={ previewImg } fluid />
+        <Image src={ previewImage } fluid />
 
-        <Button type='submit' primary fluid content='Crear' />
+        <Button type='submit' primary fluid content={category ? "Actualizar" : "Crear" } />
     </Form>
   )
 }
 
 
-function initialValues() {
+function initialValues(data) {
     
     return{
-        title:"",
-        image:"",
+        title: data?.title || "",
+        image: "",
     };
 }
 
@@ -77,6 +94,14 @@ function newSchema() {
 
     return{
         title:Yup.string().required(true),
-        image:Yup.string().required(true),
+        image:Yup.mixed().required(true),
+    };
+}
+
+function updateSchema() {
+
+    return{
+        title:Yup.string().required(true),
+        image:Yup.mixed(),
     };
 }
