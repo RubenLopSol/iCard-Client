@@ -51,7 +51,7 @@ function Actions(props) {
   const { product } = props;
 
   return (
-    <Table.Cell testAlign="right">
+    <Table.Cell textAlign="right">
 
       <Button icon onClick={() => console.log("Editar...")}>
         <Icon name="pencil" />
