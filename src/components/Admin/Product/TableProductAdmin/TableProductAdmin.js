@@ -1,11 +1,11 @@
 import React from 'react'
-import { Table, Image, Button, Icon, Tab } from "semantic-ui-react"
+import { Table, Image, Button, Icon } from "semantic-ui-react"
 import { map } from "lodash"
 import "./TabletProductAdmin.scss"
 
 export function TableProductAdmin(props) {
 
-  const { products } = props;
+  const { products, updateProduct,  } = props;
 
   return (
     
@@ -35,7 +35,7 @@ export function TableProductAdmin(props) {
                   {product.active ? <Icon name="check" /> : <Icon name="close" />}
                 </Table.Cell>
 
-                <Actions product={product} />
+                <Actions product={product} updateProduct={updateProduct} />
 
               </Table.Row> 
             ))}
@@ -48,12 +48,12 @@ export function TableProductAdmin(props) {
 
 
 function Actions(props) {
-  const { product } = props;
+  const { product, updateProduct } = props;
 
   return (
     <Table.Cell textAlign="right">
 
-      <Button icon onClick={() => console.log("Editar...")}>
+      <Button icon onClick={() => updateProduct(product)}>
         <Icon name="pencil" />
       </Button>
 
