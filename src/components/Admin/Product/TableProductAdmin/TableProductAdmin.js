@@ -5,7 +5,7 @@ import "./TabletProductAdmin.scss"
 
 export function TableProductAdmin(props) {
 
-  const { products, updateProduct,  } = props;
+  const { products, updateProduct, deleteProduct } = props;
 
   return (
     
@@ -35,7 +35,7 @@ export function TableProductAdmin(props) {
                   {product.active ? <Icon name="check" /> : <Icon name="close" />}
                 </Table.Cell>
 
-                <Actions product={product} updateProduct={updateProduct} />
+                <Actions product={product} updateProduct={updateProduct} deleteProduct={deleteProduct} />
 
               </Table.Row> 
             ))}
@@ -48,7 +48,7 @@ export function TableProductAdmin(props) {
 
 
 function Actions(props) {
-  const { product, updateProduct } = props;
+  const { product, updateProduct, deleteProduct } = props;
 
   return (
     <Table.Cell textAlign="right">
@@ -57,7 +57,7 @@ function Actions(props) {
         <Icon name="pencil" />
       </Button>
 
-      <Button icon negative onClick={() => console.log("Eliminar...")}>
+      <Button icon negative onClick={() => deleteProduct(product)}>
         <Icon name="close" />
       </Button>
 

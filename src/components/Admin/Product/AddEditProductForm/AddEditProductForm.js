@@ -16,7 +16,7 @@ export function AddEditProductForm(props) {
   const [previewImage, setPreviewImage] = useState( product ? product?.image : null )
   const { categories, getCategories } = useCategory();
 
-  const { addProduct } = useProduct()
+  const { addProduct, updateProduct } = useProduct()
 
   useEffect(() => {
     async function fetchData() {
@@ -36,7 +36,7 @@ export function AddEditProductForm(props) {
     validationOnChange: false,
     onSubmit: async (formValue) => {
       if ( product ) {
-        console.log("Update....");
+        await updateProduct( product.id, formValue);
       
       }else {
         await addProduct(formValue);

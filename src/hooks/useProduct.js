@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-import {getProductsApi, addProductApi} from '../api/product'
+import {getProductsApi, addProductApi, updateProductApi, deleteProductApi } from '../api/product'
 
 import { useAuth } from "./"
 
@@ -49,6 +49,34 @@ export function useProduct() {
     
     }
 
+    const updateProduct = async (id, data) => {
+
+        try {
+
+            setLoading(true);
+            await updateProductApi(  id, data, auth.token);
+            setLoading(false);
+
+        } catch (error) {
+
+            setError(error);
+            setLoading(false);
+            
+        }
+    
+    }
+
+
+    const deleteProduct = async (id) => {
+        try {
+            setLoading(true);
+            await deleteProductApi(id, auth.token);
+            setLoading(false);
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }
+    }
 
 
     return {
@@ -57,5 +85,7 @@ export function useProduct() {
         products,
         getProducts,
         addProduct,
+        updateProduct,
+        deleteProduct,
     };
 }
