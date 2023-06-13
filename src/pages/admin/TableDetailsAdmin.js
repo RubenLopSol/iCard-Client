@@ -12,7 +12,7 @@ export function TableDetailsAdmin() {
 
   useEffect(() => {
 
-    getOrdersByTable(id);
+    getOrdersByTable(id, "", "ordering=-status,created_at");
    
   }, [])
 

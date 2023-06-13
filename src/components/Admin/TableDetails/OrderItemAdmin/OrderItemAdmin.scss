@@ -8,6 +8,14 @@
     align-items: center;
     justify-content: space-between;
 
+    &.pending {
+        background-color: rgb(235, 83, 83);
+    }
+
+    &.delivered {
+        background-color: greenyellow;
+    }
+
 
     &__time {
         position: absolute;
