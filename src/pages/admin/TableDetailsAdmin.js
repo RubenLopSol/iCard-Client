@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Loader } from "semantic-ui-react" 
 import { useParams } from "react-router-dom"
 import { HeaderPage } from "../../components/Admin"
+import { ListOrderAdmin } from "../../components/Admin/TableDetails"
 import { useOrder } from "../../hooks"
 
 export function TableDetailsAdmin() {
@@ -25,7 +26,7 @@ export function TableDetailsAdmin() {
           Cargando...
         </Loader>
       ) : (
-        <h2>Lista de pedidos</h2>
+        <ListOrderAdmin orders={orders} />
       )}
     </>
   )
