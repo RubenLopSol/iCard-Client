@@ -10,7 +10,7 @@ export function TablesAdmin() {
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
   const [refetch, setrefetch] = useState(false);
-  const { loading, tables, getTables } = useTable();
+  const { loading, tables, getTables, deleteTable } = useTable();
   
   useEffect(() => { getTables() }, [refetch]);
 
@@ -21,6 +21,26 @@ export function TablesAdmin() {
     setTitleModal("Crear mesa");
     setContentModal( <AddEditTableForm onClose={openCloseModal} onRefetch={onRefetch} /> )
     openCloseModal();
+  };
+
+  const updateTable = (data) => {
+    setTitleModal("Actualizar mesa");
+    setContentModal(
+      <AddEditTableForm
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        table={data}
+      />
+    );
+    openCloseModal();
+  };
+
+  const onDeleteTable = async (data) => {
+    const result = window.confirm(`Eliminar mesa ${data.number} ?`);
+    if(result){
+      await deleteTable(data.id);
+      onRefetch();
+    }
   }
   
   
@@ -35,7 +55,12 @@ export function TablesAdmin() {
             Cargando...
           </Loader>
         ) : (
-          <TableTablesAdmin tables={tables} />
+          <TableTablesAdmin 
+          tables={tables} 
+          updateTable={updateTable} 
+          deleteTable={onDeleteTable} 
+
+          />
         )}
 
         <ModalBasic 
