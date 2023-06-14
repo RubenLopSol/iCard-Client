@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Loader } from "semantic-ui-react" 
 import { useParams } from "react-router-dom"
+import { forEach, size } from "lodash"
 import { HeaderPage, AddOrderForm } from "../../components/Admin"
 import { ModalBasic } from "../../components/Common"
 import { ListOrderAdmin } from "../../components/Admin/TableDetails"
-import { useOrder, useTable } from "../../hooks"
+import { useOrder, useTable, usePayment  } from "../../hooks"
+import { addPaymentToOrderApi } from '../../api/orders'
 
 export function TableDetailsAdmin() {
 
   const [reloadOrders, setReloadOrders] = useState(false);
+  const [paymentData, setPaymentData] = useState(null);
   const { id } = useParams();
-  const { loading, orders, getOrdersByTable } = useOrder();
+  const { loading, orders, getOrdersByTable, addPaymentToOrder } = useOrder();
   const { table, getTable } = useTable();
+  const { createPayment, getPaymentByTable } = usePayment();
 
   const [showModal, setshowModal] = useState(false);
   
@@ -28,20 +32,63 @@ export function TableDetailsAdmin() {
   useEffect(() => {
     getTable(id);
   }, [id])
+
+
+  useEffect(() => {
+    (async() =>{
+       const response = await getPaymentByTable(id);
+       if (size(response) > 0) {
+        setPaymentData(response[0]);
+       }
+    })()
+  }, [reloadOrders])
+  
   
 
 
   const onReloadOrders = () => setReloadOrders((prev) => !prev);
 
   const openCloseModal = () => setshowModal((prev) => !prev);
+
+
+  const onCreatedPayment = async () => {
+    const result = window.confirm('Generar cuenta mesa?');
+
+    if (result) {
+
+      let totalPayment = 0;
+      forEach(orders, (order) => {
+        totalPayment += Number(order.product_data.price)
+      });
+
+      const resultTypePayment = window.confirm('Efectivo = CANCELAR             Tarjeta = ACEPTAR');
+
+      const paymentData = {
+        table: id,
+        total_payment: totalPayment.toFixed(2),
+        payment_type: resultTypePayment ? "CARD" : "CASH",
+        status_payment: "PENDING",
+      };
+
+      const payment = await createPayment(paymentData);
+      
+      for await (const order of orders) {
+
+        await addPaymentToOrder(order.id, payment.id);
+      };
+      onReloadOrders();
+    }
+  }
   
 
   return (
     <>
     <HeaderPage 
     title={`Mesa ${table?.number ||  "" }`} 
-    btnTitle="Añadir pedido" 
+    btnTitle={paymentData ? "Ver cuenta" : "Añadir pedido"} 
     btnClick={openCloseModal}
+    btnTitleTwo={!paymentData ? "Generar cuenta" : null}
+    btnClickTwo={onCreatedPayment}
 
     />
       {loading ? (
@@ -53,7 +100,12 @@ export function TableDetailsAdmin() {
       )}
 
       <ModalBasic show={showModal} onclose={openCloseModal} title="Nuevo pedido"  >
+        {paymentData ? (
+          <h2>Detalles de la cuenta</h2>
+        ) : (
         <AddOrderForm idTable={id} openCloseModal={openCloseModal} onReloadOrders={onReloadOrders} />
+        )}
+
       </ModalBasic>
 
 
