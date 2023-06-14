@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { forEach, size } from "lodash"
 import { HeaderPage, AddOrderForm } from "../../components/Admin"
 import { ModalBasic } from "../../components/Common"
-import { ListOrderAdmin } from "../../components/Admin/TableDetails"
+import { ListOrderAdmin, PaymentDetailsAdmin } from "../../components/Admin/TableDetails"
 import { useOrder, useTable, usePayment  } from "../../hooks"
 import { addPaymentToOrderApi } from '../../api/orders'
 
@@ -101,9 +101,20 @@ export function TableDetailsAdmin() {
 
       <ModalBasic show={showModal} onclose={openCloseModal} title="Nuevo pedido"  >
         {paymentData ? (
-          <h2>Detalles de la cuenta</h2>
+          <PaymentDetailsAdmin 
+          payment={paymentData} 
+          orders={orders} 
+          openCloseModal={openCloseModal} 
+          onReloadOrders={onReloadOrders} 
+            
+          />
         ) : (
-        <AddOrderForm idTable={id} openCloseModal={openCloseModal} onReloadOrders={onReloadOrders} />
+        <AddOrderForm 
+        idTable={id} 
+        openCloseModal={openCloseModal} 
+        onReloadOrders={onReloadOrders} 
+
+        />
         )}
 
       </ModalBasic>

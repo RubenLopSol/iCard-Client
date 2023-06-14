@@ -35,7 +35,7 @@ export async function getPaymentByTableApi(idTable) {
 
         const url = `${BASE_API}/api/payments/?${tableFilter}&${statusFilter}`;
         const params = {
-            headers:{
+            headers: {
                 "Content-Type": "application/json",
             },
         };
@@ -48,4 +48,29 @@ export async function getPaymentByTableApi(idTable) {
         
         throw error;
     }
+}
+
+export async function clousePaymentApi(idPayment) {
+
+    try {
+
+        const url = `${BASE_API}/api/payments/${idPayment}/`;
+        const params = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                statusPayment: PAYMENT_STATUS.PAID,
+            }),
+        };
+
+         await fetch(url, params);
+
+        
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+
 }
