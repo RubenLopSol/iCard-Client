@@ -3,14 +3,15 @@ import { Form, Image, Button, Dropdown } from "semantic-ui-react"
 import { map } from "lodash"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { useProduct } from "../../../../hooks"
+import { useProduct,  } from "../../../../hooks"
 import "./AddOrderForm.scss"
 
 export function AddOrderForm(props) {
 
   const { idTable, openCloseModal} = props;
   const [productsFormat, setProductsFormat] = useState([]);
-  const { products, getProducts} = useProduct();
+  const [productsData, setProductsData] = useState([]);
+  const { products, getProducts, getProductById } = useProduct();
 
 
   useEffect(() => {
@@ -30,7 +31,33 @@ export function AddOrderForm(props) {
       console.log("Creando pedidos");
       console.log(formValues);
     }
-  })
+  });
+
+  useEffect(() => {
+   addProductList()
+  }, [formik.values]);
+  
+
+  const addProductList = async () => {
+
+    try {
+
+      const productsId = formik.values.products;
+
+      const arrayTemp = [];
+      for await (const idProduct of productsId) {
+        const response = await getProductById(idProduct);
+        arrayTemp.push(response);
+  
+      }
+      setProductsData(arrayTemp)
+      
+    } catch (error) {
+      
+      console.log(error);
+    }
+
+  };
   
 
   return (
@@ -48,7 +75,15 @@ export function AddOrderForm(props) {
         />
 
         <div className="add-orde-form__list" >
-          {/* {For de productos seleccionados} */}
+          {map(productsData, (producto, index) => (
+            <div className='add-order-form__list-product' key={index} >
+              <div>
+                <Image src={producto.image} avatar size='tiny' />
+                <span>{producto.title}</span>
+              </div>
+              <Button type='button' content="Eliminar" basic color='red' />
+            </div>
+          ))}
         </div>
 
         <Button type="submit" primary fluid content="Añadir productos a la mesa"  />
