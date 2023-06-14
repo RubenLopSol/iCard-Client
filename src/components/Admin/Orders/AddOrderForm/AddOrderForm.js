@@ -3,15 +3,16 @@ import { Form, Image, Button, Dropdown } from "semantic-ui-react"
 import { map } from "lodash"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { useProduct,  } from "../../../../hooks"
+import { useProduct, useOrder } from "../../../../hooks"
 import "./AddOrderForm.scss"
 
 export function AddOrderForm(props) {
 
-  const { idTable, openCloseModal} = props;
+  const { idTable, openCloseModal, onReloadOrders } = props;
   const [productsFormat, setProductsFormat] = useState([]);
   const [productsData, setProductsData] = useState([]);
   const { products, getProducts, getProductById } = useProduct();
+  const { addOrderToTable } = useOrder();
 
 
   useEffect(() => {
@@ -28,8 +29,12 @@ export function AddOrderForm(props) {
     validationSchema: Yup.object(validationSchema()),
     validationOnChange: false,
     onSubmit: async (formValues) => {
-      console.log("Creando pedidos");
-      console.log(formValues);
+      for await (const idProduct of formValues.products){
+        await addOrderToTable(idTable, idProduct);
+      }
+
+      onReloadOrders();
+      openCloseModal();
     }
   });
 
@@ -58,6 +63,13 @@ export function AddOrderForm(props) {
     }
 
   };
+
+  const removeProductList = (index) => {
+
+    const idProducts = [...formik.values.products];
+    idProducts.splice(index,1);
+    formik.setFieldValue("products", idProducts);
+  };
   
 
   return (
@@ -81,7 +93,7 @@ export function AddOrderForm(props) {
                 <Image src={producto.image} avatar size='tiny' />
                 <span>{producto.title}</span>
               </div>
-              <Button type='button' content="Eliminar" basic color='red' />
+              <Button type='button' content="Eliminar" basic color='red' onClick={() => removeProductList(index)} />
             </div>
           ))}
         </div>
