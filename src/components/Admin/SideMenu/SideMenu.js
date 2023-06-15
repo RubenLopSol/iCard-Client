@@ -56,6 +56,8 @@
             </Menu.Item>
         )}
 
+        {pathname === "/admin" && (
+
             <div className='legend'>
                 <div className='legend-black'> <h3>Mesa libre</h3> </div>
 
@@ -70,6 +72,13 @@
                     <p>Pedidos pendientes</p>
                 </div>
             </div>
+        )}
+        
+            
+
+
+            
+
         </Menu>
 
         

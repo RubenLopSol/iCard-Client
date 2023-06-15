@@ -36,6 +36,7 @@ export function AddOrderForm(props) {
       onReloadOrders();
       openCloseModal();
     }
+    
   });
 
   useEffect(() => {

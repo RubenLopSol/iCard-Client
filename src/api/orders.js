@@ -119,3 +119,23 @@ export async function closeOrderApi(idOrder) {
     }
 
 }
+
+export async function getOrdersByPaymentApi(idPayment) {
+
+    try {
+
+        const paymentFilter = `payment=${idPayment}`;
+
+        const url = `${BASE_API}/api/orders/?${paymentFilter}`;
+
+        const response = await fetch(url);
+        const result = await response.json();
+
+        return result;
+        
+    } catch (error) {
+        
+        throw error;
+    }
+
+}

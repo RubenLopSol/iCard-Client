@@ -1,10 +1,28 @@
-import React from 'react'
-import { HeaderPage } from "../../components/Admin"
+import React, { useEffect } from 'react'
+import { Loader } from "semantic-ui-react"
+import { HeaderPage, TablePayments } from "../../components/Admin"
+import { usePayment } from "../../hooks"
 
 export function PaymentHistory() {
+
+    const { loading, payments, getPayments } = usePayment();
+
+    useEffect(() => {
+      getPayments();
+    }, [])
+    
+    console.log(payments);
+
   return (
     <>
         <HeaderPage title="Historial de pagos" />
+        {loading ? (
+            <Loader active inline="centered">
+                Cargando...
+            </Loader>
+        ) : (
+            <TablePayments payments={payments} />
+        )}
     </>
   )
 }
