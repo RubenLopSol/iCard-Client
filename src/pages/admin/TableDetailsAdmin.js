@@ -105,7 +105,8 @@ export function TableDetailsAdmin() {
           payment={paymentData} 
           orders={orders} 
           openCloseModal={openCloseModal} 
-          onReloadOrders={onReloadOrders} 
+          onReloadOrders={onReloadOrders}
+            
             
           />
         ) : (
@@ -113,7 +114,7 @@ export function TableDetailsAdmin() {
         idTable={id} 
         openCloseModal={openCloseModal} 
         onReloadOrders={onReloadOrders} 
-
+         
         />
         )}
 

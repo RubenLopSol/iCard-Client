@@ -1,5 +1,5 @@
 import { AdminLayout } from "../layouts"
-import { OrdersAdmin, UsersAdmin, CategoriesAdmin, ProductAdmin, TablesAdmin, TableDetailsAdmin } from "../pages/admin"
+import { OrdersAdmin, UsersAdmin, CategoriesAdmin, ProductAdmin, TablesAdmin, TableDetailsAdmin, PaymentHistory } from "../pages/admin"
 
 
 
@@ -43,6 +43,13 @@ const routesAdmin = [
         path:"/admin/table/:id",
         layout: AdminLayout,
         component: TableDetailsAdmin,
+        exact: true,
+
+    },
+    {
+        path:"/admin/payments-history",
+        layout: AdminLayout,
+        component: PaymentHistory,
         exact: true,
 
     },

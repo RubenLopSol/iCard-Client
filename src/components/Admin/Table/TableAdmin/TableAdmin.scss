@@ -30,6 +30,10 @@
             background-color: rgb(235, 83, 83);
             border-radius: 100px;
         }
+        &.pending-payment {
+            background-color: aqua;
+            border-radius: 50%;
+        }
     }
 
 }

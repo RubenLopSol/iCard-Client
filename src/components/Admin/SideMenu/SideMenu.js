@@ -14,6 +14,7 @@
      <div className='side-menu-admin'>
         <MenuLeft pathname={pathname} />
         <div className='content' >{ children }</div>
+        
      </div>
    );
  }
@@ -24,6 +25,9 @@
     const {auth} = useAuth()
 
     return(
+
+        
+
         <Menu fixed='left' borderless className='side' vertical>
 
             <Menu.Item as={Link} to={"/admin"} active={pathname === "/admin"}>
@@ -51,6 +55,26 @@
                 <Icon name='users'/> Usuarios
             </Menu.Item>
         )}
+
+            <div className='legend'>
+                <div className='legend-black'> <h3>Mesa libre</h3> </div>
+
+                <div className='legend-red'> <h3>Pedido por entregar</h3> </div>
+
+                <div className='legend-green'> <h3>Mesa servida</h3> </div>
+
+                <div className='legend-blue'> <h3>Cuenta solicitada</h3> </div>
+
+                <div className='legend__balloon'>
+                    <div className='legend-balloon' > Nº  </div>
+                    <p>Pedidos pendientes</p>
+                </div>
+            </div>
         </Menu>
+
+        
+        
+        
     );
  }
+

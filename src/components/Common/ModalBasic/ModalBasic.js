@@ -9,7 +9,7 @@ export function ModalBasic(props) {
 
   return (
     
-    <Modal className='modal-basic' open={ show } onClose={ onClose } size= { size }>
+    <Modal className='modal-basic' open={ show } onClose={ onClose } size= { size }   >
         { title && <Modal.Header> { title } </Modal.Header> }
         <Modal.Content> { children } </Modal.Content>
     </Modal>

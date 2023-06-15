@@ -58,10 +58,10 @@ export async function clousePaymentApi(idPayment) {
         const params = {
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                statusPayment: PAYMENT_STATUS.PAID,
+                status_payment: PAYMENT_STATUS.PAID,
             }),
         };
 
@@ -69,6 +69,7 @@ export async function clousePaymentApi(idPayment) {
 
         
     } catch (error) {
+
         console.log(error);
         throw error;
     }

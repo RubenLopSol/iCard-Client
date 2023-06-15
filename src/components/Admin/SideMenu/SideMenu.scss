@@ -12,6 +12,111 @@
             margin-right: 10px !important;
         }
 
+        .legend {
+
+            margin-top: 100px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            background-color: rgb(199, 197, 197);
+
+            &__balloon{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                font-weight: bold;
+                font-size: large;
+
+                p{
+                    font-size: large;
+                }
+            }
+
+            
+        }
+
+        .legend-black{
+            margin-left: 10px;
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            h3{
+                text-align: center;
+            }
+        }
+        .legend-red{
+            margin-left: 10px;
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: rgb(235, 83, 83) ;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+            h3{
+                text-align: center;
+            }
+        }
+        .legend-green{
+            margin-left: 10px;
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: greenyellow;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+            h3{
+                text-align: center;
+            }
+        }
+        .legend-blue{
+            margin-left: 10px;
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: aqua;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+            h3{
+                text-align: center;
+            }
+        }
+        .legend-balloon{
+            margin-left: 10px;
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            border-radius: 50%;
+            background-color: rgb(6, 140, 250);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+
+
+        }
+
     }
         .content{
             position: absolute;
@@ -19,4 +124,6 @@
             padding: 20px;
             width: calc(100% - 250px);
         }
+
+        
 }
