@@ -1,11 +1,12 @@
 import React from 'react'
-import {BrowserRouter as Router,Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router,Routes, Route, } from 'react-router-dom'
 import { map } from "lodash"
 import routes from "./routes"
 
 
 export function Navigation() {
 
+  
 
   return (
 
@@ -18,7 +19,7 @@ export function Navigation() {
                 exact={route.exact}
                 element={
                 <route.layout>
-                  <route.component />
+                  <route.component   />
                 </route.layout>}
               />
             ))}

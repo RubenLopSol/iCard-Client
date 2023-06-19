@@ -1,5 +1,6 @@
 import React from 'react'
 import {ToastContainer} from "react-toastify"
+
 import {Navigation} from "./routes"
 import {AuthProvider } from "./context"
 
@@ -7,13 +8,14 @@ import {AuthProvider } from "./context"
 
 
 export default function App() {
+  
   return (
     <div className='app'>
       
       <AuthProvider>
 
       
-        <Navigation/>
+        <Navigation  />
 
         <ToastContainer 
           position="bottom-center"
@@ -25,6 +27,7 @@ export default function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover={false}
+           
         />
 
 
