@@ -76,7 +76,7 @@ export function useOrder(){
             
         } catch (error) {
 
-            setError(error)
+            setError(error);
         }
 
     }

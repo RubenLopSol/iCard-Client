@@ -8,7 +8,7 @@ export function PaymentDetailsAdmin(props) {
 
     const { payment, orders, openCloseModal, onReloadOrders } = props;
 
-    const { clousePayment } = usePayment()
+    const { closePayment,  } = usePayment()
     const { closeOrder } = useOrder()
 
     const getIconPayment = (key) => {
@@ -27,15 +27,16 @@ export function PaymentDetailsAdmin(props) {
 
         const result = window.confirm("Cerrar definitivamente la mesa?");
         if(result) {
-            await clousePayment(payment.id);
-
+            
+            await closePayment(payment.id);
+            
             for await (const order of orders) {
                 await closeOrder(order.id);
             }
+            
             onReloadOrders();
             openCloseModal();
         }
-
     }
 
   return (
@@ -63,9 +64,10 @@ export function PaymentDetailsAdmin(props) {
             </Table.Body>
         </Table>
 
-    <Button primary fluid onClick={ onCloseTable }>
-        Marcar como pagado y cerrar mesa
-    </Button>
+        <Button primary fluid onClick={ onCloseTable }>
+            Marcar como pagado y cerrar mesa
+        </Button>
+
 
     </div>
   )

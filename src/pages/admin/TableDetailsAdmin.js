@@ -6,7 +6,8 @@ import { HeaderPage, AddOrderForm } from "../../components/Admin"
 import { ModalBasic } from "../../components/Common"
 import { ListOrderAdmin, PaymentDetailsAdmin } from "../../components/Admin/TableDetails"
 import { useOrder, useTable, usePayment  } from "../../hooks"
-import { addPaymentToOrderApi } from '../../api/orders'
+
+
 
 export function TableDetailsAdmin() {
 
@@ -17,7 +18,7 @@ export function TableDetailsAdmin() {
   const { table, getTable } = useTable();
   const { createPayment, getPaymentByTable } = usePayment();
 
-  const [showModal, setshowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   
   
 
@@ -37,18 +38,17 @@ export function TableDetailsAdmin() {
   useEffect(() => {
     (async() =>{
        const response = await getPaymentByTable(id);
-       if (size(response) > 0) {
-        setPaymentData(response[0]);
-       }
-    })()
+       if (size(response) > 0) setPaymentData(response[0]);      
+    })();
   }, [reloadOrders])
+
   
   
 
 
   const onReloadOrders = () => setReloadOrders((prev) => !prev);
 
-  const openCloseModal = () => setshowModal((prev) => !prev);
+  const openCloseModal = () => setShowModal((prev) => !prev);
 
 
   const onCreatedPayment = async () => {
@@ -62,13 +62,13 @@ export function TableDetailsAdmin() {
       });
 
       const resultTypePayment = window.confirm('Efectivo = CANCELAR             Tarjeta = ACEPTAR');
-
       const paymentData = {
         table: id,
         total_payment: totalPayment.toFixed(2),
         payment_type: resultTypePayment ? "CARD" : "CASH",
         status_payment: "PENDING",
       };
+      
 
       const payment = await createPayment(paymentData);
       
@@ -80,16 +80,14 @@ export function TableDetailsAdmin() {
     }
   }
   
-
   return (
     <>
     <HeaderPage 
     title={`Mesa ${table?.number ||  "" }`} 
     btnTitle={paymentData ? "Ver cuenta" : "Añadir pedido"} 
     btnClick={openCloseModal}
-    btnTitleTwo={!paymentData ? "Generar cuenta" : null}
+    btnTitleTwo={!paymentData  ? "Generar cuenta" : null}
     btnClickTwo={onCreatedPayment}
-
     />
       {loading ? (
         <Loader active inline="centered">
@@ -106,15 +104,13 @@ export function TableDetailsAdmin() {
           orders={orders} 
           openCloseModal={openCloseModal} 
           onReloadOrders={onReloadOrders}
-            
-            
+          
           />
         ) : (
         <AddOrderForm 
         idTable={id} 
         openCloseModal={openCloseModal} 
         onReloadOrders={onReloadOrders} 
-         
         />
         )}
 

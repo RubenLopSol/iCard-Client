@@ -70,7 +70,7 @@ export function TableAdmin(props) {
       <Label circular  color="orange">
         Cuenta
       </Label>
-    )}
+    ) }
         
     <IcTable className={classNames({
       pending: size(orders) > 0,

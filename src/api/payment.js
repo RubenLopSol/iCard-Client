@@ -31,7 +31,7 @@ export async function getPaymentByTableApi(idTable) {
     try {
 
         const tableFilter = `table=${idTable}`;
-        const statusFilter = `statusPayment=${PAYMENT_STATUS.PENDING}`;
+        const statusFilter = `status_payment=${PAYMENT_STATUS.PENDING}`;
 
         const url = `${BASE_API}/api/payments/?${tableFilter}&${statusFilter}`;
         const params = {
@@ -50,7 +50,7 @@ export async function getPaymentByTableApi(idTable) {
     }
 }
 
-export async function clousePaymentApi(idPayment) {
+export async function closePaymentApi(idPayment) {
 
     try {
 
@@ -80,7 +80,7 @@ export async function getPaymentsApi() {
 
     try {
 
-        const paymentFilter = `statusPayment=${PAYMENT_STATUS.PAID}`;
+        const paymentFilter = `status_payment=${PAYMENT_STATUS.PAID}`;
         const orderingFilter = 'ordering=created_at';
 
         const url = `${BASE_API}/api/payments/?${paymentFilter}&${orderingFilter}`
