@@ -29,7 +29,7 @@ export function ClientLayout(props) {
     }
 
     const goToOrders = () => {
-      navigate(`client/${tableNumber}/orders`)
+      navigate(`/client/${tableNumber}/orders`)
     }
 
 
