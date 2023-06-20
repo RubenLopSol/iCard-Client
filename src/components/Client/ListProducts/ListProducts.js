@@ -24,7 +24,7 @@ export function ListProducts(props) {
                     <span>{product.title}</span>
                 </div>
 
-                <Button prymary icon onClick={() =>addCart(product)} >
+                <Button primary icon onClick={() =>addCart(product)} >
                     <Icon name='add' />
                 </Button>
 
