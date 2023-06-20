@@ -13,10 +13,11 @@ export function OrdersHistory() {
 
   const [showTypePayment, setShowTypePayment] = useState(false)
   const [idTable, setIdTable] = useState(null)
+  const [isRequestAccount, setIsRequestAcount] = useState(false)
 
   const { loading, orders, getOrdersByTable, addPaymentToOrder } = useOrder();
   const { getTableByNumber } = useTable();
-  const { createPayment } = usePayment();
+  const { createPayment, getPaymentByTable } = usePayment();
   const { tableNumber } = useParams();
 
   useEffect(() => {
@@ -28,6 +29,16 @@ export function OrdersHistory() {
       getOrdersByTable(idTableTemp, "", "ordering=-status, -created_at");
     })()
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if(idTable) {
+        const response = await getPaymentByTable(idTable);
+        setIsRequestAcount(response);
+      }
+    })()
+  }, [idTable])
+  
 
   const onCreatePayment = async (paymentType) => {
 
@@ -63,8 +74,11 @@ export function OrdersHistory() {
           <>
 
             {size(orders) > 0 && (
-                <Button primary fluid onClick={() => setShowTypePayment(true)}>
-                  Pedir la cuenta
+                <Button primary fluid onClick={() => size(isRequestAccount) === 0 && setShowTypePayment(true)}>
+                  { size(isRequestAccount) > 0  
+                    ? "Ya ha solicitado la cuenta"
+                    : "Pedir la cuenta"
+                  }
                 </Button>
             )}
 

@@ -17,5 +17,9 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
+
+        .ui.button {
+            margin-left: 10px;
+        }
     }
 }
