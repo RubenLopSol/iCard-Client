@@ -1,6 +1,8 @@
 import React from 'react'
 import { Image, Button, Icon } from "semantic-ui-react";
 import { map } from "lodash";
+import { toast } from "react-toastify";
+import { addProductCart } from "../../../api/cart";
 
 import "./ListProducts.scss"
 
@@ -9,8 +11,9 @@ export function ListProducts(props) {
     const { products } = props;
 
     const addCart = (product) => {
-        console.log("Producto añadido", product.title)
-    }
+        addProductCart(product.id);
+        toast.success(`${product.title} anadido al carrito`);
+    };
 
   return (
     <div className='list-product' >

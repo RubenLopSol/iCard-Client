@@ -8,6 +8,8 @@ import {AuthProvider } from "./context"
 
 
 export default function App() {
+
+
   
   return (
     <div className='app'>
