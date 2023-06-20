@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Image, Button, Icon } from "semantic-ui-react";
 import { map, forEach } from "lodash";
-import { useParams, Navigate } from "react-router-dom";
-import { removeProductCartApi } from "../../../api/cart";
+import { useParams, useNavigate } from "react-router-dom";
+import { removeProductCartApi, cleanProductCartApi } from "../../../api/cart";
+import { useOrder, useTable } from "../../../hooks";
 
 import "./ListProductCart.scss"
 
@@ -11,6 +12,10 @@ export function ListProductCart(props) {
     const { products, onReloadCart } = props;
 
     const [total, setTotal] = useState(0)
+    const { addOrderToTable } = useOrder()
+    const { getTableByNumber } = useTable();
+    const { tableNumber } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
       let total = 0;
@@ -18,13 +23,24 @@ export function ListProductCart(props) {
         total += Number(product.price);
       })
       setTotal(total.toFixed(2));
-    }, [products])
+    }, [products]);
     
 
     const removeProduct = (index) => {
         removeProductCartApi(index);
         onReloadCart()
-    }
+    };
+
+    const createOrder = async () => {
+        const tableData = await getTableByNumber(tableNumber);
+        const idTable = tableData[0].id;
+        for await (const product of products) {
+            await addOrderToTable(idTable, product.id)
+        }
+
+        cleanProductCartApi();
+        navigate(`/client/${tableNumber}/orders`);
+    };
 
   return (
     <div  className='list-product-cart'>
@@ -41,7 +57,7 @@ export function ListProductCart(props) {
             </div>
         ))}
 
-        <Button primary fluid>
+        <Button primary fluid onClick={createOrder}>
             Realizar el pedido ({total}€)
         </Button>
 
